@@ -45,8 +45,14 @@ func (r *Response) MarshalProtobuf(m proto.Message) error {
 		return err
 	}
 
-	r.Body = base64.RawStdEncoding.EncodeToString(body)
-	r.IsBase64Encoded = true
+	if len(body) > 0 {
+		r.Body = base64.RawStdEncoding.EncodeToString(body)
+		r.IsBase64Encoded = true
+		return nil
+	}
+
+	r.Body = ""
+	r.IsBase64Encoded = false
 
 	return nil
 }
